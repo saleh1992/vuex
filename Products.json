@@ -1,0 +1,24 @@
+{
+    "id": "1",
+    "image": "../assets/img/jpg/toy1.jpg",
+    "title": "Construction Set",
+    "price": "101.9",
+},
+{
+    "id": "2",
+    "image": "../assets/img/jpg/toy2.jpg",
+    "title": "Soft Pink Bunny",
+    "price": "59.99",
+},
+{
+    "id": "3",
+    "image": "../assets/img/jpg/toy3.jpg",
+    "title": "Ring Stacker Toy",
+    "price": "77.99",
+},
+{
+    "id": "4",
+    "image": "../assets/img/jpg/toy4.jpg",
+    "title": "Coil Spring Toy",
+    "price": "21.99"
+}
