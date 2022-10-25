@@ -111,14 +111,11 @@ export default {
                 this.$store.state.basket.map(e => {
                     // console.log(arr);
                     if (e.id === param.id) {
-                        console.log("yes", e.price * 2);
-                        // return { ...e, ...e.count++, ...(e.price + e.price ) }
                         return { ...e, ...e.count++, ...e.price = e.price + e.price }
                     }
 
                 })
             }
-            this.$store.state.id = param.id
             this.$store.state.store_products = { ...param, ...{ count: this.count } } // push product to basket
             this.$store.commit('store_basket')
         },

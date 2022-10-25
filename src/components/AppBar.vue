@@ -16,32 +16,34 @@
                     <v-icon>mdi-magnify</v-icon>
                 </v-btn>
             </div>
-            <v-navigation-drawer v-model="drawerCart" absolute temporary right width="600">
-                <v-list nav dense>
-                    <v-list-item-group v-model="group">
+            <v-navigation-drawer v-model="drawerCart"  absolute temporary right width="600">
+                <v-list class="test" nav dense>
+                    <v-list-item-group v-model="group" class="drawerCart_list">
                         <p class="py-5 mx-10">Your Cart ({{$store.state.total_items}} items)</p>
-                        <v-list-item link class="justify-center mb-5" v-for="product in $store.state.basket" :key="product.id">
+                        <v-list-item link class="justify-center mb-5" v-for="product in $store.state.basket"
+                            :key="product.id">
                             <v-card width="90%" elevation="0">
                                 <v-row>
                                     <v-col cols="4">
                                         <div :style="{width:100+'px' , height:100 +'px'}">
-                                            <img height="100$" src="../assets/img/jpg/toy1.jpg">
+                                            <img height="100$" :src="product.image">
                                         </div>
                                     </v-col>
                                     <!-- <v-col cols="8" class="d-flex justify-space-between align-center"> -->
                                     <v-col cols="8">
                                         <v-row class="px-5">
                                             <v-col cols="12" class="d-flex justify-space-between  align-center">
-                                                <span>Construction Set</span>
-                                                <span>55$</span>
+                                                <span>{{product.title}}</span>
+                                                <span>{{product.price}} $</span>
                                             </v-col>
                                             <v-col cols="12" class="d-flex justify-space-between  align-center">
-                                                <v-btn-toggle >
+                                                <v-btn-toggle>
                                                     <v-btn>
                                                         <v-icon>mdi-plus</v-icon>
                                                     </v-btn>
                                                     <v-btn>
-                                                        <v-icon>{{$store.state.total_items}}</v-icon>
+                                                        <!-- <v-icon>{{$store.state.total_items}}</v-icon> -->
+                                                        <v-icon>{{product.count}}</v-icon>
                                                     </v-btn>
                                                     <v-btn>
                                                         <v-icon>mdi-minus</v-icon>
@@ -54,12 +56,13 @@
                                         </v-row>
                                     </v-col>
                                 </v-row>
-
-
                             </v-card>
                         </v-list-item>
 
-
+                        <div class="subtotal mx-10 d-flex justify-space-between align-center text-h5 font-weight-bold">
+                            <span>Subtotal: </span>
+                            <span>{{$store.state.total_price}} $</span>
+                        </div>
                     </v-list-item-group>
                 </v-list>
             </v-navigation-drawer>
@@ -106,5 +109,12 @@ export default {
 //     position: relative;
 
 // }
+.drawerCart_list{
+    position: relative;
+}
+.subtotal{
+    position: relative;
+    bottom: -47px;
+}
 </style>
 
