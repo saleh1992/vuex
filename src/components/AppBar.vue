@@ -6,22 +6,56 @@
             <div class="order-2 ">
                 <!-- <router-link class="black--text text-decoration-none" to="/">Home</router-link> |
                     <router-link class="black--text text-decoration-none" to="/about">About</router-link> -->
-                    <v-btn icon class="mx-3">
-                        <v-icon @click="drawerCart = true">mdi-cart-outline</v-icon>
-                        <v-badge class="cart_length" v-if="$store.state.basket.length" :content="$store.state.basket.length"></v-badge>
-                    </v-btn>
-          
+                <v-btn icon class="mx-3" @click="drawerCart = true">
+                    <v-icon>mdi-cart-outline</v-icon>
+                    <v-badge class="cart_length" v-if="$store.state.basket.length" :content="$store.state.total_items">
+                    </v-badge>
+                </v-btn>
+
                 <v-btn icon>
                     <v-icon>mdi-magnify</v-icon>
                 </v-btn>
             </div>
-            <v-navigation-drawer v-model="drawerCart" absolute temporary right>
+            <v-navigation-drawer v-model="drawerCart" absolute temporary right width="600">
                 <v-list nav dense>
-                    <v-list-item-group  v-model="group" >
-                        <v-list-item link class="justify-center" >
-                            <v-card>
-                                <p>Construction Set</p>
-                                <img width="200" src="../assets/img/jpg/toy1.jpg">
+                    <v-list-item-group v-model="group">
+                        <p class="py-5 mx-10">Your Cart ({{$store.state.total_items}} items)</p>
+                        <v-list-item link class="justify-center mb-5" v-for="product in $store.state.basket" :key="product.id">
+                            <v-card width="90%" elevation="0">
+                                <v-row>
+                                    <v-col cols="4">
+                                        <div :style="{width:100+'px' , height:100 +'px'}">
+                                            <img height="100$" src="../assets/img/jpg/toy1.jpg">
+                                        </div>
+                                    </v-col>
+                                    <!-- <v-col cols="8" class="d-flex justify-space-between align-center"> -->
+                                    <v-col cols="8">
+                                        <v-row class="px-5">
+                                            <v-col cols="12" class="d-flex justify-space-between  align-center">
+                                                <span>Construction Set</span>
+                                                <span>55$</span>
+                                            </v-col>
+                                            <v-col cols="12" class="d-flex justify-space-between  align-center">
+                                                <v-btn-toggle >
+                                                    <v-btn>
+                                                        <v-icon>mdi-plus</v-icon>
+                                                    </v-btn>
+                                                    <v-btn>
+                                                        <v-icon>{{$store.state.total_items}}</v-icon>
+                                                    </v-btn>
+                                                    <v-btn>
+                                                        <v-icon>mdi-minus</v-icon>
+                                                    </v-btn>
+                                                </v-btn-toggle>
+                                                <v-btn icon>
+                                                    <v-icon>mdi-close-thick </v-icon>
+                                                </v-btn>
+                                            </v-col>
+                                        </v-row>
+                                    </v-col>
+                                </v-row>
+
+
                             </v-card>
                         </v-list-item>
 

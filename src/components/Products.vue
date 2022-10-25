@@ -8,8 +8,11 @@
                 architecto.
             </p>
         </div>
-        <span>Total Items {{this.$store.state.basket.reduce((prev,current)=> prev + current.count ,0)}}</span>
-                <span>Total Price {{this.$store.state.basket.reduce((prevPrice,CurrentPrice)=> prevPrice + CurrentPrice.price,0 )}}</span>
+        <!-- <span>Total Items {{this.$store.state.basket.reduce((prev,current)=> prev + current.count ,0)}}</span>
+        <span>Total Price {{this.$store.state.basket.reduce((prevPrice,CurrentPrice)=> prevPrice + CurrentPrice.price,0 )}}</span> -->
+        <span>Total Items {{$store.state.total_items}}</span> <br>
+        <span>Total Price {{$store.state.total_price}}</span>
+
         <v-row>
             <v-card class="mx-auto my-12" max-width="374" v-for="product in Products" :key="product.id">
                 <v-img height="250" :src="product.image"></v-img>

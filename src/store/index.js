@@ -13,6 +13,8 @@ export const store = new Vuex.Store({
     store_products: {},
     basket: [],
     unique: [],
+    total_items: 0,
+    total_price: 0,
     id: ""
   },
   mutations: {
@@ -33,6 +35,8 @@ export const store = new Vuex.Store({
       })
       state.basket = state.unique
       console.log("basket", state.basket);
+      state.total_items = state.basket.reduce((prev, current) => prev + current.count, 0)
+      state.total_price = state.basket.reduce((prev, current) => prev + current.price, 0).toFixed(2)
       // console.log("unique", state.unique);
     }
   }
