@@ -14,7 +14,7 @@
         <span>Total Price {{$store.state.total_price}}</span>
 
         <v-row>
-            <v-card class="mx-auto my-12" max-width="374" v-for="product in Products" :key="product.id">
+            <v-card class="mx-auto my-12" max-width="374" v-for="product in products" :key="product.id">
                 <v-img height="250" :src="product.image"></v-img>
 
                 <v-card-title>{{product.title}}</v-card-title>
@@ -61,7 +61,7 @@ export default {
         loading: false,
         count: 1,
         selection: 1,
-        Products: [
+        products: [
             {
                 id: 1,
                 image: require('../assets/img/jpg/toy1.jpg'),
@@ -107,20 +107,22 @@ export default {
         },
         handelAdd(param) {
 
-            if (this.$store.state.basket.length > 0) {
+         
                 this.$store.state.basket.map(e => {
-                    // console.log(arr);
                     if (e.id === param.id) {
-                        return { ...e, ...e.count++, ...e.price = e.price + e.price }
+                        return { ...e, ...e.count++, ...e.price += param.price }
                     }
-
                 })
-            }
+            
+            this.$store.state.id = param.id
             this.$store.state.store_products = { ...param, ...{ count: this.count } } // push product to basket
             this.$store.commit('store_basket')
         },
 
     },
+    mounted(){
+        this.$store.state.products = this.products
+    }
 }
 </script>
 

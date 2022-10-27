@@ -39,7 +39,7 @@
                                             <v-col cols="12" class="d-flex justify-space-between  align-center">
                                                 <v-btn-toggle>
                                                     <v-btn>
-                                                        <v-icon>mdi-plus</v-icon>
+                                                        <v-icon @click="increase(product)">mdi-plus</v-icon>
                                                     </v-btn>
                                                     <v-btn>
                                                         <!-- <v-icon>{{$store.state.total_items}}</v-icon> -->
@@ -101,6 +101,20 @@ export default {
         drawerCart: false,
         group: null,
     }),
+    methods:{
+        increase(){
+            // console.log(item);
+            // console.log(this.$store.state.basket.id == item.id);
+            this.$store.state.products.map(product =>{
+            this.$store.state.basket.map(basket =>{
+                if (basket.id === product.id) {
+                    return { ...basket, ...basket.count++, ...basket.price += product.price }
+                }
+            })
+            })
+            this.$store.commit('store_basket')
+        }
+    }
 }
 </script>
 
