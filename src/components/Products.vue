@@ -10,14 +10,14 @@
         </div>
         <!-- <span>Total Items {{this.$store.state.basket.reduce((prev,current)=> prev + current.count ,0)}}</span>
         <span>Total Price {{this.$store.state.basket.reduce((prevPrice,CurrentPrice)=> prevPrice + CurrentPrice.price,0 )}}</span> -->
-        <span>Total Items {{$store.state.total_items}}</span> <br>
-        <span>Total Price {{$store.state.total_price}}</span>
+        <span>Total Items {{   $store.state.total_items   }}</span> <br>
+        <span>Total Price {{   $store.state.total_price   }}</span>
 
         <v-row>
             <v-card class="mx-auto my-12" max-width="374" v-for="product in products" :key="product.id">
                 <v-img height="250" :src="product.image"></v-img>
 
-                <v-card-title>{{product.title}}</v-card-title>
+                <v-card-title>{{   product.title   }}</v-card-title>
 
                 <v-card-text>
                     <v-row align="center" class="mx-0">
@@ -25,16 +25,16 @@
                             size="14"></v-rating>
 
                         <div class="grey--text ms-4">
-                            {{product.rating}}
+                            {{   product.rating   }}
                         </div>
                     </v-row>
 
                     <div class="my-4 text-subtitle-1">
-                        $ • {{product.price}}
+                        $ • {{   product.price   }}
                     </div>
 
                     <div>
-                        {{product.title}}
+                        {{   product.title   }}
                     </div>
                     <!-- {{$store.state.count}} -->
                     <!-- {{$store.state.basket}} -->
@@ -106,21 +106,20 @@ export default {
             // console.log(this.Products);
         },
         handelAdd(param) {
+            // add && increase count and price  in basket
+            this.$store.state.basket.map(e => {
+                if (e.id === param.id) {
+                    return { ...e, ...e.count++, ...e.price += param.price }
+                }
+            })
 
-         
-                this.$store.state.basket.map(e => {
-                    if (e.id === param.id) {
-                        return { ...e, ...e.count++, ...e.price += param.price }
-                    }
-                })
-            
             this.$store.state.id = param.id
             this.$store.state.store_products = { ...param, ...{ count: this.count } } // push product to basket
             this.$store.commit('store_basket')
         },
 
     },
-    mounted(){
+    mounted() {
         this.$store.state.products = this.products
     }
 }
