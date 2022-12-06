@@ -68,7 +68,7 @@
 
 <script>
 
-import Vue from 'vue'
+// import Vue from 'vue'
 export default {
     name: 'Products',
     data: () => ({
@@ -117,19 +117,28 @@ export default {
     methods: {
         add_item_list() {
             this.list.push(this.list[this.list.length - 1] + 1)
+            // this.$setItem.set(this.list, this.list.length, this.list[this.list.length - 1] + 1 )
         },
         change_list() {
             this.list = [5, 4, 3]
         },
         change_list_index() {
+            // this.list[2] = 55
+            // this.list = [...this.list]
             // this.list[2] = 55 
-            new Vue(Vue.set(this.list, 1, 55))
+            // Vue.set(this.list, 1, 55)
+            this.$setItem.set(this.list, 1, 55)
+
         },
         change_object_index() {
             // this.obj.name = "zyad"
             // this.obj.age = 30 + this.count++
-            new Vue(Vue.set(this.obj, "name", "zyad"))
-            new Vue(Vue.set(this.obj, "age", 30 + this.count++))
+            // this.obj = { ...this.obj }
+            // Vue.set(this.obj, "name", "zyad")
+            // Vue.set(this.obj, "age", 30 + this.count++)
+            this.$setItem.set(this.obj, "name", "zyad")
+            this.$setItem.set(this.obj, "age", 30 + this.count++)
+
         },
         getData() {
             // const webApi = this.Products

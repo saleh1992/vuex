@@ -34,7 +34,9 @@
                                         <v-row class="px-5">
                                             <v-col cols="12" class="d-flex justify-space-between  align-center">
                                                 <span>{{ product.title }}</span>
-                                                <span>{{ product.price.toFixed(2) }} $</span>
+                                                <span v-if="true">{{ (product.price).toFixed(2) }} $</span>
+                                                <!-- <span v-else-if="false" class="text-decoration-line-through red--text">{{ (product.price).toFixed(2) }} $</span>
+                                                <span v-else class="">{{ (product.price-50).toFixed(2) }} $</span> -->
                                             </v-col>
                                             <v-col cols="12" class="d-flex justify-space-between  align-center">
                                                 <v-btn-toggle>
@@ -53,6 +55,8 @@
                                                     <v-icon>mdi-close-thick </v-icon>
                                                 </v-btn>
                                             </v-col>
+
+
                                         </v-row>
                                     </v-col>
                                 </v-row>
@@ -63,6 +67,16 @@
                             <span>Subtotal: </span>
                             <span>{{ totalPrices }} $</span>
                         </div>
+                        <v-col cols="12" class="mt-16 px-9">
+                            <v-text-field label="Discount Value" type="number" solo
+                                @input="discount_value = $event"></v-text-field>
+                        </v-col>
+                        {{ discount_value }}
+                        <v-col cols="12" class="mt-16 px-9">
+                            <v-text-field label="Voucher Number" type="text" solo
+                                @input="voucher = $event"></v-text-field>
+                        </v-col>
+                        {{ voucher }}
                     </v-list-item-group>
                 </v-list>
             </v-navigation-drawer>
@@ -101,7 +115,9 @@ export default {
         drawer: false,
         drawerCart: false,
         group: null,
-        oldPrice: 0
+        oldPrice: 0,
+        discount_value: null,
+        voucher: null
     }),
     methods: {
         increase(item, index) {
@@ -127,7 +143,7 @@ export default {
     },
     computed: {
         totalPrices() {
-            return this.$store.state.basket.reduce((prev, current) => prev + current.price, 0).toFixed(2)
+            return (this.$store.state.basket.reduce((prev, current) => prev + current.price, 0) - this.discount_value).toFixed(2)
         },
         totalItems() {
             return this.$store.state.basket.reduce((prev, current) => prev + current.count, 0)

@@ -8,6 +8,8 @@ import axios from "axios"
 Vue.prototype.$http = axios
 
 Vue.config.productionTip = false
+Vue.prototype.$setItem = Vue
+
 
 new Vue({
   router,
