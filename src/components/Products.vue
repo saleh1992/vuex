@@ -8,16 +8,29 @@
                 architecto.
             </p>
         </div>
+        <div v-for="list in list" :key="list">
+            {{ list }}
+        </div>
+        <v-btn @click="add_item_list">Add</v-btn> <br>
+        <v-btn @click="change_list">change</v-btn> <br>
+        <v-btn @click="change_list_index">change data by Index</v-btn> <br>
+        <hr>
+        <div v-for="(item, i) in obj" :key="i">
+            {{ i }} {{ item }}
+        </div>
+        <v-btn @click="change_object_index">change object by key</v-btn> <br>
+        {{ obj }}<br>
+
         <!-- <span>Total Items {{this.$store.state.basket.reduce((prev,current)=> prev + current.count ,0)}}</span>
         <span>Total Price {{this.$store.state.basket.reduce((prevPrice,CurrentPrice)=> prevPrice + CurrentPrice.price,0 )}}</span> -->
-        <span>Total Items {{   $store.state.total_items   }}</span> <br>
-        <span>Total Price {{   $store.state.total_price   }}</span>
+        <span>Total Items {{ $store.state.total_items }}</span> <br>
+        <span>Total Price {{ $store.state.total_price }}</span>
 
         <v-row>
             <v-card class="mx-auto my-12" max-width="374" v-for="product in products" :key="product.id">
                 <v-img height="250" :src="product.image"></v-img>
 
-                <v-card-title>{{   product.title   }}</v-card-title>
+                <v-card-title>{{ product.title }}</v-card-title>
 
                 <v-card-text>
                     <v-row align="center" class="mx-0">
@@ -25,16 +38,16 @@
                             size="14"></v-rating>
 
                         <div class="grey--text ms-4">
-                            {{   product.rating   }}
+                            {{ product.rating }}
                         </div>
                     </v-row>
 
                     <div class="my-4 text-subtitle-1">
-                        $ • {{   product.price   }}
+                        $ • {{ product.price }}
                     </div>
 
                     <div>
-                        {{   product.title   }}
+                        {{ product.title }}
                     </div>
                     <!-- {{$store.state.count}} -->
                     <!-- {{$store.state.basket}} -->
@@ -55,6 +68,7 @@
 
 <script>
 
+import Vue from 'vue'
 export default {
     name: 'Products',
     data: () => ({
@@ -94,9 +108,29 @@ export default {
                 rating: 1,
                 loading: false
             },
-        ]
+        ],
+        list: [1, 2, 3, 4],
+        obj: {
+            name: 'saleh'
+        }
     }),
     methods: {
+        add_item_list() {
+            this.list.push(this.list[this.list.length - 1] + 1)
+        },
+        change_list() {
+            this.list = [5, 4, 3]
+        },
+        change_list_index() {
+            // this.list[2] = 55 
+            new Vue(Vue.set(this.list, 1, 55))
+        },
+        change_object_index() {
+            // this.obj.name = "zyad"
+            // this.obj.age = 30 + this.count++
+            new Vue(Vue.set(this.obj, "name", "zyad"))
+            new Vue(Vue.set(this.obj, "age", 30 + this.count++))
+        },
         getData() {
             // const webApi = this.Products
             // this.$http.get(this.Products)
