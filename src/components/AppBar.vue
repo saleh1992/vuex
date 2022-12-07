@@ -22,8 +22,8 @@
                         <p class="py-5 mx-10">Your Cart ({{ totalItems }} items)</p>
                         <v-list-item link class="justify-center mb-5" v-for="(product, i) in $store.state.basket"
                             :key="product.id">
-                            <v-card width="90%" elevation="0">
-                                <v-row>
+                            <v-card width="100%" elevation="0">
+                                <v-row class="align-end">
                                     <v-col cols="4">
                                         <div :style="{ width: 100 + 'px', height: 100 + 'px' }">
                                             <img height="100$" :src="product.image">
@@ -34,7 +34,18 @@
                                         <v-row class="px-5">
                                             <v-col cols="12" class="d-flex justify-space-between  align-center">
                                                 <span>{{ product.title }}</span>
-                                                <span v-if="true">{{ (product.price).toFixed(2) }} $</span>
+                                                <div class="d-flex flex-column">
+                                                    <span>
+                                                        {{ (product.discount > 0 ? (product.price - product.discount) :
+                                                                product.price).toFixed(2)
+                                                        }} $
+                                                    </span>
+                                                    <span v-if="(product.discount > 0)"
+                                                        :class="product.discount > 0 ? 'text-decoration-line-through red--text ' : ' text-subtitle-1'">
+                                                        {{ product.price }} $
+                                                    </span>
+                                                </div>
+
                                                 <!-- <span v-else-if="false" class="text-decoration-line-through red--text">{{ (product.price).toFixed(2) }} $</span>
                                                 <span v-else class="">{{ (product.price-50).toFixed(2) }} $</span> -->
                                             </v-col>
@@ -71,12 +82,16 @@
                             <v-text-field label="Discount Value" type="number" solo
                                 @input="discount_value = $event"></v-text-field>
                         </v-col>
-                        {{ discount_value }}
-                        <v-col cols="12" class="mt-16 px-9">
-                            <v-text-field label="Voucher Number" type="text" solo
-                                @input="voucher = $event"></v-text-field>
+                        <!-- {{ discount_value }} -->
+                        <v-col cols="12" class="mt-16 px-9 d-flex align-center">
+                            <v-text-field label="Voucher" outlined
+                                :rules="validation ? [rules.voucher, rules.counter] : ''" type="text"
+                                clear-icon="mdi-close-circle" clearable @click:clear="clearMessage"
+                                @input="voucher = $event">
+                            </v-text-field>
+                            <v-btn class="sub" @click="(validation = true)">submit</v-btn>
                         </v-col>
-                        {{ voucher }}
+                        <!-- {{ voucher }} -->
                     </v-list-item-group>
                 </v-list>
             </v-navigation-drawer>
@@ -114,18 +129,33 @@ export default {
     data: () => ({
         drawer: false,
         drawerCart: false,
+        validation: false,
         group: null,
         oldPrice: 0,
         discount_value: null,
-        voucher: null
+        voucher: null,
+        valid_voucher: ["saleh29", "hossam2002"],
+        rules: {
+            // voucher: value => value === "sasa" || "this voucher not valid",
+            voucher: value => this.valid_voucher.includes(value) || "this voucher not valid",
+            required: value => !!value || 'Required.',
+        }
+
     }),
     methods: {
+        clearMessage() {
+            this.voucher = ''
+        },
         increase(item, index) {
             this.$store.state.basket[index].count++
             this.oldPrice = this.$store.state.products.filter(e => {
                 return e.id === item.id ? e.price : ""
             })
-            this.$store.state.basket[index].price += this.oldPrice[0].price
+            if (this.$store.state.basket[index].discount > 0) {
+                this.$store.state.basket[index].price += (this.oldPrice[0].price - this.$store.state.basket[index].discount)
+            } else {
+                this.$store.state.basket[index].price += this.oldPrice[0].price
+            }
         },
         decrease(item, index) {
             this.$store.state.basket[index].count--
@@ -135,7 +165,11 @@ export default {
             this.oldPrice = this.$store.state.products.filter(e => {
                 return e.id === item.id ? e.price : ""
             })
-            this.$store.state.basket[index].price -= this.oldPrice[0].price
+            if (this.$store.state.basket[index].discount > 0) {
+                this.$store.state.basket[index].price -= (this.oldPrice[0].price - this.$store.state.basket[index].discount)
+            } else {
+                this.$store.state.basket[index].price -= this.oldPrice[0].price
+            }
         },
         delete_item(index) {
             this.$store.state.basket.splice(index, 1)
@@ -143,11 +177,16 @@ export default {
     },
     computed: {
         totalPrices() {
-            return (this.$store.state.basket.reduce((prev, current) => prev + current.price, 0) - this.discount_value).toFixed(2)
+            // return (this.$store.state.basket.reduce((prev, current) => prev + current.price, 0) - this.discount_value).toFixed(2)
+            return (this.$store.state.basket.reduce((prev, current) => current.discount > 0 ? (prev + current.price) - current.discount : prev + current.price, 0) - this.discount_value).toFixed(2)
         },
         totalItems() {
             return this.$store.state.basket.reduce((prev, current) => prev + current.count, 0)
         }
+    },
+    mounted() {
+        console.log(this.valid_voucher.includes('saleh29'));
+
     }
 }
 </script>
@@ -157,6 +196,11 @@ export default {
 //     position: relative;
 
 // }
+.sub {
+    margin-left: -103px;
+    margin-bottom: 28px;
+}
+
 .drawerCart_list {
     position: relative;
 }

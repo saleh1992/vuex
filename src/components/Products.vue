@@ -43,9 +43,14 @@
                     </v-row>
 
                     <div class="my-4 text-subtitle-1">
-                        $ • {{ product.price }}
+                        <p v-if="product.discount > 0">
+                            $ • {{ product.discount }}
+                        </p>
+                        <p
+                            :class="product.discount > 0 ? 'text-decoration-line-through red--text mt-n4' : 'my-4 text-subtitle-1'">
+                            $ • {{ product.price }}
+                        </p>
                     </div>
-
                     <div>
                         {{ product.title }}
                     </div>
@@ -80,6 +85,7 @@ export default {
                 id: 1,
                 image: require('../assets/img/jpg/toy1.jpg'),
                 title: "Construction Set",
+                discount: 50,
                 price: 101.99,
                 rating: 4,
                 loading: false
@@ -88,6 +94,7 @@ export default {
                 id: 2,
                 image: require('../assets/img/jpg/toy2.jpg'),
                 title: "Soft Pink Bunny",
+                discount: 10,
                 price: 59.99,
                 rating: 5,
                 loading: false
@@ -96,6 +103,7 @@ export default {
                 id: 3,
                 image: require('../assets/img/jpg/toy3.jpg'),
                 title: "Ring Stacker Toy",
+                discount: 0,
                 price: 77.99,
                 rating: 3,
                 loading: false
@@ -104,15 +112,23 @@ export default {
                 id: 4,
                 image: require('../assets/img/jpg/toy4.jpg'),
                 title: "Coil Spring Toy",
+                discount: 0,
                 price: 8.99,
                 rating: 1,
                 loading: false
             },
         ],
         list: [1, 2, 3, 4],
-        obj: {
-            name: 'saleh'
-        }
+        obj: [
+            {
+                name: 'saleh',
+                age: 28
+            },
+            {
+                name: 'zyad',
+                age: 26
+            }
+        ]
     }),
     methods: {
         add_item_list() {
@@ -124,6 +140,7 @@ export default {
         },
         change_list_index() {
             // this.list[2] = 55
+            // Vue.set(this.list, 2, 44)
             // this.list = [...this.list]
             // this.list[2] = 55 
             // Vue.set(this.list, 1, 55)
@@ -136,8 +153,8 @@ export default {
             // this.obj = { ...this.obj }
             // Vue.set(this.obj, "name", "zyad")
             // Vue.set(this.obj, "age", 30 + this.count++)
-            this.$setItem.set(this.obj, "name", "zyad")
-            this.$setItem.set(this.obj, "age", 30 + this.count++)
+            this.$setItem.set(this.obj[1], "name", "eslam")
+            this.$setItem.set(this.obj[1], "age", 30 + this.count++)
 
         },
         getData() {
